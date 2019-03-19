@@ -21,11 +21,10 @@ namespace Domain.Services
             _logger.LogWarning($"{DateTime.Now}");
         }
 
-        public void Process(string jobId)
-        {
-            _logger.LogWarning($"[{jobId}] {DateTime.Now}");
-        }
-
+        /// <summary>
+        /// 执行循环任务
+        /// </summary>
+        /// <param name="recurringJobId"></param>
         public void ProcessRecurJob(string recurringJobId)
         {
             _logger.LogWarning($"[{recurringJobId}] {DateTime.Now}");

@@ -18,7 +18,8 @@ namespace AspNetCoreUseHangfire.Controllers
         [HttpGet("FireAndForgetJobs")]
         public IActionResult CreateFireAndForgetJobs()
         {
-            var jobId = BackgroundJob.Enqueue<IJobService>(u => u.ProcessFireAndForgetJobs());
+            // https://stackoverflow.com/questions/43103092/how-to-invoke-async-methods-in-hangfire
+            var jobId = BackgroundJob.Enqueue<IJobService>((u) => u.ProcessFireAndForgetJobs());
 
             return new JsonResult(new { success = false, message = $"创建成功，jobId={jobId}" });
         }

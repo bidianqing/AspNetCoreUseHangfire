@@ -29,6 +29,8 @@ namespace AspNetCoreUseHangfire
                 options.UseStorage(new MySqlStorage(Configuration.GetConnectionString("MySqlConnectionString")));
             });
 
+            services.AddHttpClient();
+
             services.AddScoped<IJobService, JobService>();
         }
 

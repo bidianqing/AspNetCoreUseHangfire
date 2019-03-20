@@ -1,22 +1,31 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
     public class JobService : IJobService
     {
         private readonly ILogger _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public JobService(ILogger<JobService> logger)
+        public JobService(ILogger<JobService> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
         /// 立即执行任务
         /// </summary>
-        public void ProcessFireAndForgetJobs()
+        public async Task ProcessFireAndForgetJobs()
         {
+            HttpClient httpClient = _httpClientFactory.CreateClient();
+            HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("https://www.baidu.com");
+
+            string content = await httpResponseMessage.Content.ReadAsStringAsync();
+            _logger.LogWarning(content);
             _logger.LogWarning("Fire-and-forget!");
         }
 

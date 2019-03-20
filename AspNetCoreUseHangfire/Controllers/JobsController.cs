@@ -67,5 +67,21 @@ namespace AspNetCoreUseHangfire.Controllers
 
             return new JsonResult(new { success = false, message = $"删除成功" });
         }
+
+
+
+        /// <summary>
+        /// 立即执行一个Job
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        [HttpGet("execute/{jobId}")]
+        public IActionResult ExecuteJob(string jobId)
+        {
+            bool flag = BackgroundJob.Requeue(jobId);
+            RecurringJob.Trigger(jobId);
+
+            return new JsonResult(new { success = false, message = $"执行成功" });
+        }
     }
 }

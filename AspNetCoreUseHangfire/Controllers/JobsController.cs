@@ -2,8 +2,8 @@
 using Domain.Services;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
 
 namespace AspNetCoreUseHangfire.Controllers
 {
@@ -11,10 +11,16 @@ namespace AspNetCoreUseHangfire.Controllers
     [ApiController]
     public class JobsController : ControllerBase
     {
-        private readonly ILogger _logger;
-        public JobsController(ILogger<JobsController> logger)
+        /// <summary>
+        /// 创建立刻执行任务
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("FireAndForgetJobs")]
+        public IActionResult CreateFireAndForgetJobs()
         {
-            _logger = logger;
+            var jobId = BackgroundJob.Enqueue<IJobService>(u => u.ProcessFireAndForgetJobs());
+
+            return new JsonResult(new { success = false, message = $"创建成功，jobId={jobId}" });
         }
 
         /// <summary>
@@ -81,6 +87,8 @@ namespace AspNetCoreUseHangfire.Controllers
             bool flag = BackgroundJob.Requeue(jobId);
             RecurringJob.Trigger(jobId);
 
+
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
             return new JsonResult(new { success = false, message = $"执行成功" });
         }
     }

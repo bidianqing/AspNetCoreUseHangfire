@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Services
+﻿namespace Domain.Services
 {
     public interface IJobService
     {
+        /// <summary>
+        /// 立即执行任务
+        /// </summary>
+        void ProcessFireAndForgetJobs();
+
         /// <summary>
         /// 执行延迟任务
         /// </summary>

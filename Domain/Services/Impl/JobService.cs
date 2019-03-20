@@ -13,6 +13,14 @@ namespace Domain.Services
         }
 
         /// <summary>
+        /// 立即执行任务
+        /// </summary>
+        public void ProcessFireAndForgetJobs()
+        {
+            _logger.LogWarning("Fire-and-forget!");
+        }
+
+        /// <summary>
         /// 执行延迟任务
         /// </summary>
         /// <returns></returns>

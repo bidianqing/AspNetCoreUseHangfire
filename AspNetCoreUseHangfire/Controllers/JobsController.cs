@@ -31,15 +31,8 @@ namespace AspNetCoreUseHangfire.Controllers
         [HttpPost("DelayedJobs")]
         public IActionResult CreateDelayedJob([FromBody] DelayedJobModel delayedJobModel)
         {
-            string intput = $"{delayedJobModel.Year}/{delayedJobModel.Month}/{delayedJobModel.Day} {delayedJobModel.Hour}:{delayedJobModel.Second}:00 +08:00";
-
-            if (!DateTimeOffset.TryParse(intput, out DateTimeOffset dateTime) || dateTime < DateTimeOffset.Now)
-            {
-                return new JsonResult(new { success = false, message = "时间有误" });
-            }
-
             // 延迟任务 执行一次
-            string jobId = BackgroundJob.Schedule<IJobService>(u => u.ProcessDelayedJob(), dateTime);
+            string jobId = BackgroundJob.Schedule<IJobService>(u => u.ProcessDelayedJob(), delayedJobModel.TriggerTime);
 
             return new JsonResult(new { success = false, message = $"创建成功，jobId={jobId}" });
         }

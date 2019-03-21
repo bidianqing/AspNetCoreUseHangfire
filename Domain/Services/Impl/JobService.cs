@@ -35,7 +35,7 @@ namespace Domain.Services
         /// <returns></returns>
         public void ProcessDelayedJob()
         {
-            _logger.LogWarning($"{DateTime.Now}");
+            _logger.LogWarning($"延迟任务执行：{DateTime.Now}");
         }
 
         /// <summary>

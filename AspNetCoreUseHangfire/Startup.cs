@@ -21,7 +21,8 @@ namespace AspNetCoreUseHangfire
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddNewtonsoftJson();
+            services.AddControllers()
+                .AddNewtonsoftJson();
 
             services.AddHangfire(options =>
             {
@@ -44,12 +45,14 @@ namespace AspNetCoreUseHangfire
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
-            });
+            app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

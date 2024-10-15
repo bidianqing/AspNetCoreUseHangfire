@@ -18,7 +18,7 @@ namespace Domain.Services
         /// <summary>
         /// 执行循环任务
         /// </summary>
-        /// <param name="recurringJobId"></param>
-        Task ProcessRecurJob(string recurringJobId);
+        /// <param name="model"></param>
+        Task ProcessRecurJob<T>(T model) where T : class, new();
     }
 }

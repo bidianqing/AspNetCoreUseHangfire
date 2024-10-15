@@ -49,7 +49,10 @@ namespace AspNetCoreUseHangfire.Controllers
             string recurringJobId = Guid.NewGuid().ToString();
 
             // 循环任务 执行多次
-            RecurringJob.AddOrUpdate<IJobService>(recurringJobId, (j) => j.ProcessRecurJob(recurringJobId), Cron.Minutely(), new RecurringJobOptions
+            RecurringJob.AddOrUpdate<IJobService>(recurringJobId, (j) => j.ProcessRecurJob(new RecurJobModel 
+            { 
+                Id = recurringJobId
+            }), Cron.Minutely(), new RecurringJobOptions
             {
                 TimeZone = TimeZoneInfo.Local
             });

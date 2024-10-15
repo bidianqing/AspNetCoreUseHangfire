@@ -1,12 +1,17 @@
 ﻿using Domain.Services;
 using Hangfire;
 using Hangfire.MySql;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddMediatR(xfg =>
+{
+    xfg.RegisterServicesFromAssemblies(Assembly.Load("Domain"), Assembly.Load("AspNetCoreUseHangfire"));
+});
 builder.Services.AddHangfire(options =>
 {
     options.UseStorage(new MySqlStorage(builder.Configuration.GetConnectionString("MySqlConnectionString"), new MySqlStorageOptions

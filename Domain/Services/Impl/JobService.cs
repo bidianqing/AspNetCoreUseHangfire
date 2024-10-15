@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,11 +10,13 @@ namespace Domain.Services
     {
         private readonly ILogger _logger;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMediator _mediator;
 
-        public JobService(ILogger<JobService> logger, IHttpClientFactory httpClientFactory)
+        public JobService(ILogger<JobService> logger, IHttpClientFactory httpClientFactory,IMediator mediator)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -44,11 +47,9 @@ namespace Domain.Services
         /// 执行循环任务
         /// </summary>
         /// <param name="recurringJobId"></param>
-        public async Task ProcessRecurJob(string recurringJobId)
+        public async Task ProcessRecurJob<T>(T model) where T : class, new()
         {
-            _logger.LogWarning($"[{recurringJobId}] {DateTime.Now}");
-
-            await Task.CompletedTask;
+            await _mediator.Send(model);
         }
     }
 }

@@ -13,12 +13,12 @@ namespace Domain.Services
         /// 执行延迟任务
         /// </summary>
         /// <returns></returns>
-        void ProcessDelayedJob();
+        Task ProcessDelayedJob();
 
         /// <summary>
         /// 执行循环任务
         /// </summary>
         /// <param name="recurringJobId"></param>
-        void ProcessRecurJob(string recurringJobId);
+        Task ProcessRecurJob(string recurringJobId);
     }
 }

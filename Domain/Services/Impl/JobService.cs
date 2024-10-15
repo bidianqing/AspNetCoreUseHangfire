@@ -33,18 +33,22 @@ namespace Domain.Services
         /// 执行延迟任务
         /// </summary>
         /// <returns></returns>
-        public void ProcessDelayedJob()
+        public async Task ProcessDelayedJob()
         {
             _logger.LogWarning($"延迟任务执行：{DateTime.Now}");
+
+            await Task.CompletedTask;
         }
 
         /// <summary>
         /// 执行循环任务
         /// </summary>
         /// <param name="recurringJobId"></param>
-        public void ProcessRecurJob(string recurringJobId)
+        public async Task ProcessRecurJob(string recurringJobId)
         {
             _logger.LogWarning($"[{recurringJobId}] {DateTime.Now}");
+
+            await Task.CompletedTask;
         }
     }
 }

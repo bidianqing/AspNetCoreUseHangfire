@@ -16,10 +16,12 @@ namespace AspNetCoreUseHangfire.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("FireAndForgetJobs")]
-        public IActionResult CreateFireAndForgetJobs()
+        public async Task<IActionResult> CreateFireAndForgetJobs()
         {
             // https://stackoverflow.com/questions/43103092/how-to-invoke-async-methods-in-hangfire
             var jobId = BackgroundJob.Enqueue<IJobService>((u) => u.ProcessFireAndForgetJobs());
+
+            await Task.CompletedTask;
 
             return new JsonResult(new { success = false, message = $"创建成功，jobId={jobId}" });
         }
@@ -47,7 +49,10 @@ namespace AspNetCoreUseHangfire.Controllers
             string recurringJobId = Guid.NewGuid().ToString();
 
             // 循环任务 执行多次
-            RecurringJob.AddOrUpdate<IJobService>(recurringJobId, (j) => j.ProcessRecurJob(recurringJobId), Cron.Minutely());
+            RecurringJob.AddOrUpdate<IJobService>(recurringJobId, (j) => j.ProcessRecurJob(recurringJobId), Cron.Minutely(), new RecurringJobOptions
+            {
+                TimeZone = TimeZoneInfo.Local
+            });
 
             return new JsonResult(new { success = false, message = $"创建成功，jobId={recurringJobId}" });
         }

@@ -47,7 +47,7 @@ namespace Domain.Services
         /// 执行循环任务
         /// </summary>
         /// <param name="recurringJobId"></param>
-        public async Task ProcessRecurJob<T>(T model) where T : class, new()
+        public async Task ProcessRecurJob<T>(T model) where T : class, IRequest, new()
         {
             await _mediator.Send(model);
         }

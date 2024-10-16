@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using MediatR;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -19,6 +20,6 @@ namespace Domain.Services
         /// 执行循环任务
         /// </summary>
         /// <param name="model"></param>
-        Task ProcessRecurJob<T>(T model) where T : class, new();
+        Task ProcessRecurJob<T>(T model) where T : class, IRequest, new();
     }
 }
